@@ -1,0 +1,159 @@
+/* See the Tailwind configuration guide for advanced usage
+   https://tailwindcss.com/docs/configuration */
+
+@import "tailwindcss" source(none);
+@import "phoenix-colocated/pageless/colocated.css";
+@source "../css";
+@source "../js";
+@source "../../lib/pageless_web";
+/* Required for Tailwind to automatically pick up changes in colocated CSS files in dev */
+@source "../../_build/dev/phoenix-colocated/pageless/*/";
+
+/* A Tailwind plugin that makes "hero-#{ICON}" classes available.
+   The heroicons installation itself is managed by your mix.exs */
+@plugin "../vendor/heroicons";
+
+/* daisyUI Tailwind Plugin. You can update this file by fetching the latest version with:
+   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui.js
+   Make sure to look at the daisyUI changelog: https://daisyui.com/docs/changelog/ */
+@plugin "../vendor/daisyui" {
+  themes: false;
+}
+
+/* daisyUI theme plugin. You can update this file by fetching the latest version with:
+  curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
+  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
+  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
+@plugin "../vendor/daisyui-theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: #16141f;
+  --color-base-200: #1e1b2e;
+  --color-base-300: #2a263a;
+  --color-base-content: #f5f3ff;
+  --color-primary: #8b5cf6;
+  --color-primary-content: #ffffff;
+  --color-secondary: #c4b5fd;
+  --color-secondary-content: #1b1530;
+  --color-accent: #f0abfc;
+  --color-accent-content: #23102c;
+  --color-neutral: #2f2a40;
+  --color-neutral-content: #f5f3ff;
+  --color-info: #38bdf8;
+  --color-info-content: oklch(97% 0.013 236.62);
+  --color-success: #22c55e;
+  --color-success-content: oklch(98% 0.014 180.72);
+  --color-warning: #f59e0b;
+  --color-warning-content: oklch(98% 0.022 95.277);
+  --color-error: #ef4444;
+  --color-error-content: oklch(96% 0.015 12.422);
+  --radius-selector: 0.625rem;
+  --radius-field: 0.625rem;
+  --radius-box: 0.875rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "../vendor/daisyui-theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: #fbfaff;
+  --color-base-200: #f3f0ff;
+  --color-base-300: #ddd6fe;
+  --color-base-content: #1f1b2d;
+  --color-primary: #8b5cf6;
+  --color-primary-content: #ffffff;
+  --color-secondary: #6d28d9;
+  --color-secondary-content: #ffffff;
+  --color-accent: #7c3aed;
+  --color-accent-content: #ffffff;
+  --color-neutral: #ede9fe;
+  --color-neutral-content: #1f1b2d;
+  --color-info: #0284c7;
+  --color-info-content: oklch(97% 0.014 254.604);
+  --color-success: #16a34a;
+  --color-success-content: oklch(98% 0.014 180.72);
+  --color-warning: #d97706;
+  --color-warning-content: oklch(98% 0.022 95.277);
+  --color-error: #dc2626;
+  --color-error-content: oklch(96% 0.015 12.422);
+  --radius-selector: 0.625rem;
+  --radius-field: 0.625rem;
+  --radius-box: 0.875rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.21875rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Add variants based on LiveView classes */
+@custom-variant phx-click-loading (.phx-click-loading&, .phx-click-loading &);
+@custom-variant phx-submit-loading (.phx-submit-loading&, .phx-submit-loading &);
+@custom-variant phx-change-loading (.phx-change-loading&, .phx-change-loading &);
+
+/* Use the data attribute for dark mode  */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Make LiveView wrapper divs transparent for layout */
+[data-phx-session], [data-phx-teleported-src] { display: contents }
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --pg-font-brand: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --pg-accent: #8b5cf6;
+  --pg-accent-soft: #c4b5fd;
+}
+
+[data-theme="dark"] {
+  --pg-bg: #16141f;
+  --pg-surface: #1e1b2e;
+  --pg-surface-raised: #352c55;
+  --pg-border: rgba(196, 181, 253, 0.18);
+  --pg-muted: #a7a1b8;
+  --pg-tab: #241d3a;
+  --pg-tab-active: rgba(139, 92, 246, 0.12);
+  --pg-toggle-active: #4c3b78;
+}
+
+[data-theme="light"] {
+  --pg-bg: #fbfaff;
+  --pg-surface: #ffffff;
+  --pg-surface-raised: #eee8ff;
+  --pg-border: rgba(109, 40, 217, 0.16);
+  --pg-muted: #6f6780;
+  --pg-tab: #f3f0ff;
+  --pg-tab-active: rgba(139, 92, 246, 0.08);
+  --pg-toggle-active: #e8ddff;
+}
+
+body {
+  background: var(--pg-bg);
+}
+
+.pg-brand-wordmark {
+  font-family: var(--pg-font-brand);
+  letter-spacing: -0.035em;
+}

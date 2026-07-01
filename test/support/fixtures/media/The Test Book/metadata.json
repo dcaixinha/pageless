@@ -1,0 +1,21 @@
+{
+  "tags": ["sample", "test"],
+  "chapters": [
+    { "id": 0, "start": 0, "end": 3, "title": "Sidecar Opening" },
+    { "id": 1, "start": 3, "end": 6, "title": "Sidecar Closing" }
+  ],
+  "metadata": {
+    "title": "The Test Book",
+    "subtitle": "A Fixture for Scanning",
+    "authors": ["Test Author", "Second Author"],
+    "narrators": ["Reader McRead"],
+    "series": [{ "name": "Test Series", "sequence": "1" }],
+    "genres": ["Fiction"],
+    "publishedYear": "2021",
+    "publisher": "Pageless Press",
+    "description": "A tiny audiobook used to exercise the scanner.",
+    "isbn": "9781234567897",
+    "asin": "B000000000",
+    "language": "eng"
+  }
+}

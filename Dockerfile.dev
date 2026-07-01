@@ -1,0 +1,24 @@
+FROM hexpm/elixir:1.19.5-erlang-28.4.1-debian-bookworm-20260316-slim
+
+# build-essential/git for native deps, inotify-tools for live reload,
+# ffmpeg provides ffprobe + ffmpeg used by the library scanner.
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    inotify-tools \
+    curl \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install hex and rebar
+RUN mix local.hex --force && mix local.rebar --force
+
+# Cache dependencies
+COPY mix.exs mix.lock ./
+RUN mix deps.get
+
+COPY . .
+
+CMD ["mix", "phx.server"]

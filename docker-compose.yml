@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      # Postgres 18+ recommends mounting the parent dir (data lives in a
+      # version-specific subdirectory under it).
+      - pgdata:/var/lib/postgresql
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - deps:/app/deps
+      - build:/app/_build
+      # Persisted media artifacts (extracted covers, etc.)
+      - media:/data/media
+      # Mount a host directory of audiobooks to scan. Override with
+      # PAGELESS_LIBRARY_DIR; defaults to ./audiobooks. Inside the container
+      # the library lives at /audiobooks, which is the path you point a
+      # library folder at in the admin UI.
+      - ${PAGELESS_LIBRARY_DIR:-./audiobooks}:/audiobooks
+    ports:
+      - "5050:5050"
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: pageless_dev
+      PHX_HOST_IP: "0.0.0.0"
+      PAGELESS_MEDIA_PATH: /data/media
+    # Ensure deps are present (named volume starts empty) and the database is
+    # created/migrated/seeded before starting the server.
+    command: >
+      sh -c "mix deps.get &&
+             mix ecto.setup &&
+             mix phx.server"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  deps:
+  build:
+  media:

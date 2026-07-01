@@ -1,0 +1,25 @@
+#!/bin/sh
+# Runs the Audiobookshelf importer from a production release (no Mix required).
+#
+#   bin/import_audiobookshelf --url ... --token ... --user ... [--dry-run]
+#
+# Each argument is base64-encoded before being handed to `bin/pageless eval` so
+# arbitrary values (spaces, `=`, quotes, ...) survive the shell round-trip and
+# are decoded back into a plain argv list inside the release.
+set -eu
+
+release_root="$(cd "$(dirname "$0")/.." && pwd)"
+
+encoded=""
+for arg in "$@"; do
+  enc="$(printf '%s' "$arg" | base64 | tr -d '\n')"
+  if [ -z "$encoded" ]; then
+    encoded="\"$enc\""
+  else
+    encoded="$encoded, \"$enc\""
+  fi
+done
+
+expr="Pageless.Release.import_audiobookshelf(Enum.map([$encoded], &Base.decode64!/1))"
+
+exec "$release_root/bin/pageless" eval "$expr"

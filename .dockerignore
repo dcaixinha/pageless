@@ -1,0 +1,17 @@
+_build/
+deps/
+.elixir_ls/
+.git/
+.gitignore
+docker-compose.yml
+Dockerfile
+Dockerfile.dev
+*.md
+tmp/
+node_modules/
+priv/static/assets/
+media/
+audiobooks/
+audiobooks-old/
+.expert/
+erl_crash.dump
