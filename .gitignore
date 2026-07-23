@@ -39,10 +39,15 @@ npm-debug.log
 /media/
 
 # Local audiobooks mounted into the dev container for scanning.
-/audiobooks/
-/audiobooks-old/
+/audiobooks
 
 # Local agent/tooling state.
 /.expert/
 
 !mise.toml
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
